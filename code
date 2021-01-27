@@ -1,0 +1,100 @@
+import csv
+
+with open('data.csv', encoding= "utf8") as arquivo_csv:
+    ler = csv.DictReader(arquivo_csv)
+    for linha in ler:
+        for coluna in ler:
+            if coluna['Position'] == 'GK':
+                    valor = coluna['Value']
+                    corte = len(valor)-1
+                    valor_red = valor[1:corte]
+
+                    valor_rc = coluna['Release Clause']
+                    tamanho = len(valor_rc)-1
+                    valor_rcred = valor_rc[1:tamanho]
+
+                    ano = coluna['Contract Valid Until']
+                    if ano.isnumeric() == True:
+                        ano_num = int(ano)
+
+                        if ano_num < 2021:
+
+                            if valor_red.isnumeric() == True:
+                                valor_num = float(valor_red)
+                                if valor[len(valor) - 1] == 'M':
+                                    valor_num = valor_num * 1000000
+                                if valor[len(valor) - 1] == 'K':
+                                    valor_num = valor_num * 1000
+
+                            else:
+                                valor_num = 100000000000000
+
+
+                            if valor_num <= 1000000:
+                                    coluna['Release Clause'] = valor_num  #contrato já acabou então o valor é o VALUE
+                            else:
+                                    coluna['Release Clause'] = "CARO"
+
+                        else:
+
+
+                            if valor_rcred.isnumeric() == True:
+                                preco_num = float(valor_rcred)
+                                if valor_rc[len(valor_rc) - 1] == 'M':
+                                    preco_num = preco_num * 1000000
+                                if valor_rc[len(valor_rc) - 1] == 'K':
+                                    preco_num = preco_num * 1000
+
+                            else:
+                                preco_num = 200000000000000
+
+                            if preco_num <= 1000000:
+                                coluna['Release Clause'] = preco_num
+                            else:
+                                coluna['Release Clause'] = "CARO"
+
+
+                        potencial = coluna['Potential']
+                        potencial_num = int(potencial)
+
+                        overall = coluna['Overall']
+                        overall_num = int(overall)
+
+                        idade = coluna['Age']
+                        idade_num = int(idade)
+
+                        reactions = coluna['Reactions']
+                        reactions_num = int(reactions)
+
+                        gkdiving = coluna['GKDiving']
+                        gkdiving_num = int(gkdiving)
+                        gkhandling = coluna['GKHandling']
+                        gkhandling_num = int(gkhandling)
+                        gkkicking = coluna['GKKicking']
+                        gkkicking_num = int(gkkicking)
+                        gkpositioning = coluna['GKPositioning']
+                        gkpositioning_num = int(gkpositioning)
+                        gkreflexes = coluna['GKReflexes']
+                        gkreflexes_num = int(gkreflexes)
+
+                        gkmedio = (gkdiving_num + gkhandling_num + gkkicking_num + gkpositioning_num + gkreflexes_num)/5
+
+            #            if idade_num < 35:
+            #              if overall_num > 75:
+            #               if potencial_num > 80:
+            #                  if gkmedio > 74:
+
+                      #  if gkmedio > 85:
+
+                       #     if reactions_num >= 75:
+
+                    if coluna['Release Clause'] != 'CARO':
+
+                        if reactions_num >= 75:
+
+                            if gkmedio > 70:
+
+                                print(coluna['Name'], ' -> ', coluna['Age'], ' -> ', coluna['Position'] , ' -> ', ano , ' -> ', coluna['Reactions'], ' -> ',  coluna['Overall'], ' -> ', coluna['Potential'], ' -> ', coluna['Release Clause'], ' -> ', gkmedio)
+
+
+
